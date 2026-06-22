@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Árbol de Recuerdos</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background:
+radial-gradient(circle at top,#fffdf8,#ffe7ee 60%,#ffd6e0);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+.scene{
+position:relative;
+width:1000px;
+height:700px;
+}
+
+svg{
+position:absolute;
+inset:0;
+}
+
+.tree-path{
+fill:none;
+stroke:#6d412d;
+stroke-width:12;
+stroke-linecap:round;
+stroke-linejoin:round;
+stroke-dasharray:3000;
+stroke-dashoffset:3000;
+animation:drawTree 6s ease forwards;
+}
+
+@keyframes drawTree{
+to{
+stroke-dashoffset:0;
+}
+}
+
+.heart{
+position:absolute;
+width:90px;
+height:90px;
+opacity:0;
+transform:scale(.2);
+}
+
+.heart.show{
+animation:bloom .8s ease forwards;
+}
+
+@keyframes bloom{
+0%{
+opacity:0;
+transform:scale(.2);
+}
+80%{
+transform:scale(1.1);
+}
+100%{
+opacity:1;
+transform:scale(1);
+}
+}
+
+.heart svg{
+width:100%;
+height:100%;
+filter:drop-shadow(0 0 10px rgba(255,90,120,.5));
+}
+
+.photo{
+position:absolute;
+width:56px;
+height:56px;
+left:17px;
+top:17px;
+border-radius:50%;
+object-fit:cover;
+z-index:2;
+}
+
+.message{
+font-family:'Great Vibes',cursive;
+font-size:64px;
+color:#c94873;
+text-align:center;
+opacity:0;
+margin-top:10px;
+animation:showText 3s forwards;
+animation-delay:11s;
+}
+
+@keyframes showText{
+to{
+opacity:1;
+}
+}
+
+.sparkle{
+position:absolute;
+width:6px;
+height:6px;
+border-radius:50%;
+background:white;
+animation:float 4s infinite ease-in-out;
+}
+
+@keyframes float{
+50%{
+transform:translateY(-20px);
+opacity:.4;
+}
+}
+
+</style>
+</head>
+<body>
+
+<div class="scene">
+
+<svg viewBox="0 0 1000 700">
+
+<path class="tree-path"
+d="
+M500 650
+
+C500 600 500 540 500 460
+
+C500 420 470 390 430 350
+M500 460
+C560 420 610 380 660 330
+
+M430 350
+C360 290 300 250 240 210
+
+M430 350
+C390 260 360 210 330 170
+
+M660 330
+C720 270 770 220 830 180
+
+M660 330
+C620 240 600 180 560 140
+
+M500 460
+C500 380 500 310 500 250
+
+M500 250
+C470 180 450 140 420 100
+
+M500 250
+C540 180 580 130 620 90
+
+M500 650
+C450 670 400 680 340 690
+
+M500 650
+C550 670 610 680 680 690
+"/>
+
+</svg>
+
+</div>
+
+<div class="message">
+Aunque ya no me dejes verte,<br>
+yo siempre te pensaré.
+</div>
+
+<script>
+
+const scene = document.querySelector('.scene');
+
+const fotos = [
+
+'foto1.jpeg',
+'foto2.jpeg',
+'foto3.jpeg',
+'foto4.jpeg',
+'foto5.jpeg',
+'foto6.jpeg',
+'foto7.jpeg',
+'foto8.jpeg',
+'foto9.jpeg',
+'foto10.jpeg',
+'foto11.jpeg',
+'foto12.jpeg',
+'foto13.jpeg',
+'foto14.jpeg',
+'foto15.jpeg'
+
+];
+
+const posiciones = [
+
+[210,170],
+[300,130],
+[390,80],
+[500,60],
+[620,80],
+[720,130],
+[810,170],
+
+[160,260],
+[270,250],
+[380,220],
+[500,200],
+[620,220],
+[730,250],
+[840,260],
+
+[500,320]
+
+];
+
+function crearCorazon(x,y,src){
+
+const heart = document.createElement('div');
+heart.className='heart';
+
+heart.style.left=x+'px';
+heart.style.top=y+'px';
+
+heart.innerHTML=`
+
+<svg viewBox="0 0 100 100">
+<path fill="#ff5f8f"
+d="
+M50 88
+L15 55
+C-5 35 10 0 40 12
+C47 15 50 20 50 20
+C50 20 53 15 60 12
+C90 0 105 35 85 55
+Z"/>
+</svg>
+
+<img class="photo" src="${src}">
+`;
+
+scene.appendChild(heart);
+
+setTimeout(()=>{
+heart.classList.add('show');
+},100);
+
+}
+
+setTimeout(()=>{
+
+posiciones.forEach((p,i)=>{
+
+setTimeout(()=>{
+
+crearCorazon(
+p[0],
+p[1],
+fotos[i % fotos.length]
+);
+
+},i*350);
+
+});
+
+},6500);
+
+for(let i=0;i<40;i++){
+
+const s=document.createElement('div');
+s.className='sparkle';
+
+s.style.left=Math.random()*1000+'px';
+s.style.top=Math.random()*700+'px';
+s.style.animationDelay=Math.random()*4+'s';
+
+scene.appendChild(s);
+
+}
+
+</script>
+
+</body>
+</html>
